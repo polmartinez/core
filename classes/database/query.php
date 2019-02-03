@@ -213,27 +213,33 @@ class Database_Query
 	 *
 	 * @return  string
 	 */
-	public function compile($db = null)
+	public function compile($db = null, $cached = false)
 	{
-		if ($this->_connection !== null and $db === null)
-		{
-			$db = $this->_connection;
-		}
-
-		if ( ! $db instanceof \Database_Connection)
-		{
-			// Get the database instance
-			$db = $this->_connection ?: \Database_Connection::instance($db);
-		}
-
 		// Import the SQL locally
 		$sql = $this->_sql;
 
 		if ( ! empty($this->_parameters))
 		{
-			// Quote all of the values
-			$values = array_map(array($db, 'quote'), $this->_parameters);
+			if ($this->_connection !== null and $db === null)
+			{
+				$db = $this->_connection;
+			}
 
+			if ( ! $db instanceof \Database_Connection)
+			{
+				// Get the database instance
+				$db = $this->_connection ?: \Database_Connection::instance($db);
+			}	
+			if($cached)
+			{
+				$values = $this->_parameters;
+			} 
+			else 
+			{
+				// Quote all of the values
+				$values = array_map(array($db, 'quote'), $this->_parameters);
+			}
+			
 			// Replace the values in the SQL
 			$sql = \Str::tr($sql, $values);
 		}
