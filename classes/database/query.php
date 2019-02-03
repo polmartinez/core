@@ -185,7 +185,17 @@ class Database_Query
 
 		return $this;
 	}
-
+	
+	/**
+	 * Get SQL string without scaping
+	 *
+	 * @return  string
+	 */
+	public function sql()
+	{
+		return $this->_sql;
+	}
+	
 	/**
 	 * Set a DB connection to use when compiling the SQL
 	 *
