@@ -167,9 +167,12 @@ class Cache_Storage_Memcached extends \Cache_Storage_Driver
 			foreach ($dirs as $dir)
 			{
 				$list = static::$memcached->get($dir);
-				foreach ($list as $item)
+				if (!empty($list))
 				{
-					static::$memcached->delete($item[0]);
+					foreach ($list as $item)
+					{
+						static::$memcached->delete($item[0]);
+					}
 				}
 				static::$memcached->delete($dir);
 			}
