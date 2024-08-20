@@ -133,7 +133,7 @@ class Session
 					{
 						return true;
 					}
-					public function read(string $id): string|false
+					public function read(string $id)
 					{
 						// copy all existing session vars into the PHP session store
 						$_SESSION = \Session::get();
@@ -161,7 +161,7 @@ class Session
 						\Session::destroy();
 						return true;
 					}
-					public function gc(int $max_lifetime): int|false
+					public function gc(int $max_lifetime)
 					{
 						return true;
 					}
